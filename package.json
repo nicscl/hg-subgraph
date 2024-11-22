@@ -38,7 +38,7 @@
     "publish-graph:gnosis": "npm run codegen:gnosis && npm run deploy:gnosis"
   },
   "devDependencies": {
-    "1155-to-20": "https://github.com/gnosis/1155-to-20",
+    "1155-to-20": "https://github.com/nicscl/1155-to-20.git",
     "@gnosis.pm/conditional-tokens-contracts": "^1.0.3",
     "@graphprotocol/graph-cli": "^0.51.0",
     "@graphprotocol/graph-ts": "^0.31.0",
@@ -68,6 +68,11 @@
     "truffle-plugin-networks": "^0.1.0",
     "wait-on": "^5.2.1",
     "web3": "^1.3.4"
+  },
+  "overrides": {
+    "1155-to-20": {
+        "1155-to-20-helper": "npm:@github.com/xyzseer/1155-to-20-helper.git"
+    }
   },
   "husky": {
     "hooks": {
