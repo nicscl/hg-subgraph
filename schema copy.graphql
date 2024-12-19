@@ -1,0 +1,153 @@
+type Condition @entity {
+  id: ID!
+  conditionId: String!
+
+  oracle: String!
+  questionId: String!
+  outcomeSlotCount: Int!
+
+  creator: String!
+  createTransaction: Bytes!
+  createTimestamp: BigInt!
+  createBlockNumber: BigInt!
+
+  resolved: Boolean!
+  resolveTransaction: Bytes
+  resolveTimestamp: BigInt
+  resolveBlockNumber: BigInt
+
+  payoutNumerators: [BigInt!]
+  payoutDenominator: BigInt
+  payouts: [BigDecimal!]
+
+  question: Question
+  title: String
+  outcomes: [String!]
+  scalarLow: BigInt
+  scalarHigh: BigInt
+
+  collections: [Collection!] @derivedFrom(field: "conditions")
+  positions: [Position!] @derivedFrom(field: "conditions")
+}
+
+type Collection @entity {
+  id: ID!
+  # conditions is duplicated as conditionIds
+  # so that when querying the graph node,
+  # the graph does not attempt to join with the other table
+  # which would cause conditions to be returned
+  # sorted by ID, instead of in the same order as
+  # the raw field data.
+  conditions: [Condition!]!
+  conditionIds: [ID!]!
+  conditionIdsStr: String!
+  indexSets: [BigInt!]!
+  multiplicities: [Int!]!
+
+  positions: [Position!] @derivedFrom(field: "collection")
+}
+
+type Position @entity {
+  id: ID!
+  positionId: String!
+
+  collateralToken: CollateralToken!
+  collateralTokenAddress: String!
+  collection: Collection!
+
+  # see note above about conditions/conditionIds duplication
+  conditions: [Condition!]!
+  conditionIds: [ID!]!
+  conditionIdsStr: String!
+  indexSets: [BigInt!]!
+  multiplicities: [Int!]!
+
+  createTimestamp: BigInt!
+
+  lifetimeValue: BigInt!
+  activeValue: BigInt!
+
+  wrappedTokens: [WrappedToken!]! @derivedFrom(field: "position")
+  wrappedTokenAddress: String
+}
+
+type UserPosition @entity {
+  id: ID!
+  position: Position!
+  balance: BigInt!
+  wrappedBalance: BigInt!
+  totalBalance: BigInt!
+  user: User!
+}
+
+type User @entity {
+  id: ID!
+  firstParticipation: BigInt!
+  lastActive: BigInt!
+
+  userPositions: [UserPosition!] @derivedFrom(field: "user")
+}
+
+type CollateralToken @entity {
+  id: ID!
+  activeAmount: BigInt!
+  splitAmount: BigInt!
+  mergedAmount: BigInt!
+  redeemedAmount: BigInt!
+
+  positions: [Position!] @derivedFrom(field: "collateralToken")
+}
+
+type WrappedToken @entity {
+  id: ID!
+  position: Position!
+}
+
+type Question @entity {
+  id: ID!
+
+  templateId: BigInt!
+  data: String!
+  title: String
+  outcomes: [String!]
+  category: String
+  language: String
+
+  arbitrator: String!
+  openingTimestamp: BigInt!
+  timeout: BigInt!
+
+  currentAnswer: Bytes
+  currentAnswerBond: BigInt
+  currentAnswerTimestamp: BigInt
+
+  isPendingArbitration: Boolean!
+  arbitrationOccurred: Boolean!
+
+  answerFinalizedTimestamp: BigInt
+
+  conditions: [Condition!]! @derivedFrom(field: "question")
+}
+
+type Category @entity {
+  id: ID!
+  numConditions: Int!
+  numOpenConditions: Int!
+  numClosedConditions: Int!
+}
+
+type ScalarQuestionLink @entity {
+  id: ID!
+  conditionQuestionId: Bytes!
+  realityEthQuestionId: Bytes!
+  question: Question
+  scalarLow: BigInt!
+  scalarHigh: BigInt!
+}
+
+type Global @entity {
+  id: ID! # empty string
+  numConditions: Int!
+  numCollections: Int!
+  numPositions: Int!
+}

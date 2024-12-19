@@ -7,10 +7,13 @@
   "license": "LGPL-3.0",
   "scripts": {
     "build-truffle-artifacts": "truffle compile && truffle run load-networks",
-    "migrate": "npm explore @gnosis.pm/conditional-tokens-contracts -- truffle migrate --network=local --reset && npm explore 1155-to-20 -- truffle migrate --network=local --reset && npm explore @realitio/realitio-contracts/truffle -- truffle migrate && truffle migrate --network=local",
+    "migrate": "npm explore @gnosis.pm/conditional-tokens-contracts -- truffle migrate --network=local --reset && npm explore 1155-to-20 -- truffle migrate --network=local --reset && npm explore @realitio/realitio-contracts/truffle -- truffle migrate --network=local && truffle migrate --network=local",
     "create-local": "graph create --node http://localhost:8020 gnosis/conditional-tokens-gc",
     "remove-local": "graph remove --node http://localhost:8020 gnosis/conditional-tokens-gc",
-    "deploy-local": "graph deploy --node http://localhost:8020 --ipfs http://localhost:5001 gnosis/conditional-tokens-gc",
+    "create-gnosisHG": "graph create --node http://localhost:8020 gnosis/hg",
+    "status-gnosisHG": "graph info --node http://localhost:8020 gnosis/hg",
+    "deploy-gnosisHG": "graph deploy --node http://localhost:8020 --ipfs http://localhost:5001 gnosis/hg --version-label 0.0.1",
+    "deploy-local": "graph deploy --node http://localhost:8020 --ipfs http://localhost:5001 gnosis/conditional-tokens-gc   --version-label 0.0.1",
     "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ davidalbela/conditional-tokens-rinkeby",
     "deploy:mainnet": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ davidalbela/conditional-tokens",
     "deploy:sokol": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ davidalbela/conditional-tokens-sokol",
@@ -35,18 +38,18 @@
     "publish-graph:rinkeby": "npm run codegen:rinkeby && npm run deploy:rinkeby",
     "publish-graph:mainnet": "npm run codegen:mainnet && npm run deploy:mainnet",
     "publish-graph:sokol": "npm run codegen:sokol && npm run deploy:sokol",
-    "publish-graph:gnosis": "npm run codegen:gnosis && npm run deploy:gnosis"
+    "publish-graph:gnosis": "npm run codegen:gnosis && npm run deploy:gnosis",
+    "check-subgraph-config": "graph deployment status --node http://localhost:8020 gnosis/hg"
   },
   "devDependencies": {
-    "1155-to-20": "https://github.com/nicscl/1155-to-20.git",
     "@gnosis.pm/conditional-tokens-contracts": "^1.0.3",
     "@graphprotocol/graph-cli": "^0.51.0",
     "@graphprotocol/graph-ts": "^0.31.0",
     "@openzeppelin/contracts": "^3.4.0",
-    "@realitio/realitio-contracts": "^2.2.8",
     "@truffle/contract": "^4.3.6",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
+    "1155-to-20": "https://github.com/nicscl/1155-to-20.git",
     "apollo-boost": "^0.4.9",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -71,7 +74,7 @@
   },
   "overrides": {
     "1155-to-20": {
-        "1155-to-20-helper": "npm:@github.com/xyzseer/1155-to-20-helper.git"
+      "1155-to-20-helper": "npm:@github.com/xyzseer/1155-to-20-helper.git"
     }
   },
   "husky": {
@@ -84,5 +87,10 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "dependencies": {
+    "@realitio/realitio-contracts": "^2.1.2",
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "solc": "^0.6.0"
   }
 }

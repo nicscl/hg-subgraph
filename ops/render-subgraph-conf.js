@@ -36,7 +36,7 @@ const artifacts = [
 
 const web3 = new Web3(
   Web3.givenProvider || network === 'development'
-    ? 'http://localhost:8545'
+    ? 'https://rpc.gnosischain.com'
     : network === 'xdai'
     ? 'https://rpc.xdaichain.com'
     : network === 'sokol'
