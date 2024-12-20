@@ -1,0 +1,168 @@
+
+Õ*Í*dataSources:
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmNzQqWceHSU6Y9YH7x1q7uLgFdpWMpoLjtQhWE9MFxNxM
+          name: ConditionalTokens
+      apiVersion: 0.0.6
+      entities:
+        - Condition
+        - Collection
+        - Position
+        - UserPosition
+        - User
+        - Operator
+        - CollateralToken
+      eventHandlers:
+        - event: >-
+            ConditionPreparation(indexed bytes32,indexed address,indexed
+            bytes32,uint256)
+          handler: handleConditionPreparation
+        - event: >-
+            ConditionResolution(indexed bytes32,indexed address,indexed
+            bytes32,uint256,uint256[])
+          handler: handleConditionResolution
+        - event: >-
+            PositionSplit(indexed address,address,indexed bytes32,indexed
+            bytes32,uint256[],uint256)
+          handler: handlePositionSplit
+        - event: >-
+            PositionsMerge(indexed address,address,indexed bytes32,indexed
+            bytes32,uint256[],uint256)
+          handler: handlePositionsMerge
+        - event: >-
+            PayoutRedemption(indexed address,indexed address,indexed
+            bytes32,bytes32,uint256[],uint256)
+          handler: handlePayoutRedemption
+        - event: >-
+            TransferSingle(indexed address,indexed address,indexed
+            address,uint256,uint256)
+          handler: handleTransferSingle
+        - event: >-
+            TransferBatch(indexed address,indexed address,indexed
+            address,uint256[],uint256[])
+          handler: handleTransferBatch
+      file:
+        /: /ipfs/QmYc5En3deaxeL3UnvAwYH9SNeXJVACL2UC6avyqhW2WvM
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: ConditionalTokens
+    network: xdai
+    source:
+      abi: ConditionalTokens
+      address: '0xCeAfDD6bc0bEF976fdCd1112955828E00543c0Ce'
+      startBlock: 11000000
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmfEAXu6JHXeP2QqFVaqXjRbLFoyVWmUb1Xrhqu2y5nDos
+          name: Wrapped1155Factory
+      apiVersion: 0.0.6
+      entities:
+        - WrappedToken
+      eventHandlers:
+        - event: 'Wrapped1155Creation(indexed address,indexed uint256,indexed address)'
+          handler: handleWrapped1155Creation
+      file:
+        /: /ipfs/QmbGoPYq1gEac6x6xiRjk1vfYQrL7g1czjpKH7LTCLdSxS
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: Wrapped1155Factory
+    network: xdai
+    source:
+      abi: Wrapped1155Factory
+      address: '0xc14f5d2B9d6945EF1BA93f8dB20294b90FA5b5b1'
+      startBlock: 11000000
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmQCyEHCfMmViNPSxw15Bf45tawctssPvNW86VUgMZLGXv
+          name: Realitio
+      apiVersion: 0.0.6
+      entities:
+        - Question
+        - Category
+      eventHandlers:
+        - event: >-
+            LogNewQuestion(indexed bytes32,indexed
+            address,uint256,string,indexed
+            bytes32,address,uint32,uint32,uint256,uint256)
+          handler: handleNewQuestion
+        - event: >-
+            LogNewAnswer(bytes32,indexed bytes32,bytes32,indexed
+            address,uint256,uint256,bool)
+          handler: handleNewAnswer
+        - event: >-
+            LogAnswerReveal(indexed bytes32,indexed address,indexed
+            bytes32,bytes32,uint256,uint256)
+          handler: handleAnswerReveal
+        - event: 'LogNotifyOfArbitrationRequest(indexed bytes32,indexed address)'
+          handler: handleArbitrationRequest
+        - event: 'LogFinalize(indexed bytes32,indexed bytes32)'
+          handler: handleFinalize
+      file:
+        /: /ipfs/QmY9fGUziVbDdT8exFjqDdrU7dVe6TJoLxE8oYAvtt3yJs
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: Realitio
+    network: xdai
+    source:
+      abi: Realitio
+      address: '0x79e32aE03fb27B07C89c0c568F80287C01ca2E57'
+      startBlock: 11000000
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/Qmd7pZzwtGG1mi7aRQQ3T3qmhokC6sHfvGi21nEQ3qBYwL
+          name: RealitioScalarAdapter
+      apiVersion: 0.0.6
+      entities:
+        - ScalarQuestionLink
+      eventHandlers:
+        - event: >-
+            QuestionIdAnnouncement(indexed bytes32,indexed
+            bytes32,uint256,uint256)
+          handler: handleScalarQuestionIdAnnouncement
+      file:
+        /: /ipfs/QmY9fGUziVbDdT8exFjqDdrU7dVe6TJoLxE8oYAvtt3yJs
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: RealitioScalarAdapter
+    network: xdai
+    source:
+      abi: RealitioScalarAdapter
+      address: '0xcA75aaC320089c9fb077E86857fF6e954Df06a6B'
+      startBlock: 11000000
+description: Conditional Tokens subgraph
+repository: 'https://github.com/gnosis/hg-contracts'
+schema:
+  file:
+    /: /ipfs/QmaUUD2bUvWKjVs4gLMU4smEv4AGo2tZyqLBwzZYYE65Ry
+specVersion: 0.0.4
+templates:
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmdPdMUVHv41ffZvEGNUheLJXHiBHYyaikJLuTKMVUMJ9R
+          name: Wrapped1155
+      apiVersion: 0.0.6
+      entities:
+        - WrappedToken
+      eventHandlers:
+        - event: 'Transfer(indexed address,indexed address,uint256)'
+          handler: handleTransfer
+      file:
+        /: /ipfs/QmbGoPYq1gEac6x6xiRjk1vfYQrL7g1czjpKH7LTCLdSxS
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: Wrapped1155
+    network: xdai
+    source:
+      abi: Wrapped1155
+Í*
